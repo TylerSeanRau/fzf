@@ -220,7 +220,7 @@ function! s:common_sink(action, lines) abort
     let autochdir = &autochdir
     set noautochdir
     for item in a:lines
-      if empty
+      if empty || expand('%:t') == "master.todo"
         execute 'e' s:escape(item)
         let empty = 0
       else
