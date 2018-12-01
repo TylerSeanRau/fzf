@@ -286,7 +286,7 @@ function! s:common_sink(action, lines) abort
         let sep = s:is_win ? '\' : '/'
         let item = join([cwd, item], cwd[len(cwd)-1] == sep ? '' : sep)
       endif
-      if empty
+      if empty || expand('%:t') == "master.todo"
         execute 'e' s:escape(item)
         let empty = 0
       else
