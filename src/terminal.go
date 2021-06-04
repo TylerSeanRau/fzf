@@ -865,13 +865,9 @@ func (t *Terminal) resizeWindows() {
 		}
 		verticalPad := 2
 		minPreviewHeight := 3
-		switch t.previewOpts.border {
-		case tui.BorderNone, tui.BorderVertical, tui.BorderLeft, tui.BorderRight:
+		if t.previewOpts.border == tui.BorderNone {
 			verticalPad = 0
 			minPreviewHeight = 1
-		case tui.BorderTop, tui.BorderBottom:
-			verticalPad = 1
-			minPreviewHeight = 2
 		}
 		switch t.previewOpts.position {
 		case posUp:
