@@ -693,17 +693,13 @@ func (w *LightWindow) drawBorder() {
 }
 
 func (w *LightWindow) drawBorderHorizontal(top, bottom bool) {
-	color := ColBorder
-	if w.preview {
-		color = ColPreviewBorder
-	}
 	if top {
 		w.Move(0, 0)
-		w.CPrint(color, repeat(w.border.horizontal, w.width))
+		w.CPrint(ColBorder, repeat(w.border.horizontal, w.width))
 	}
 	if bottom {
 		w.Move(w.height-1, 0)
-		w.CPrint(color, repeat(w.border.horizontal, w.width))
+		w.CPrint(ColBorder, repeat(w.border.horizontal, w.width))
 	}
 }
 
@@ -712,18 +708,14 @@ func (w *LightWindow) drawBorderVertical(left, right bool) {
 	if !left || !right {
 		width++
 	}
-	color := ColBorder
-	if w.preview {
-		color = ColPreviewBorder
-	}
 	for y := 0; y < w.height; y++ {
 		w.Move(y, 0)
 		if left {
-			w.CPrint(color, string(w.border.vertical))
+			w.CPrint(ColBorder, string(w.border.vertical))
 		}
-		w.CPrint(color, repeat(' ', width))
+		w.CPrint(ColBorder, repeat(' ', width))
 		if right {
-			w.CPrint(color, string(w.border.vertical))
+			w.CPrint(ColBorder, string(w.border.vertical))
 		}
 	}
 }
