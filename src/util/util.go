@@ -3,7 +3,6 @@ package util
 import (
 	"math"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/mattn/go-isatty"
@@ -22,8 +21,7 @@ func RunesWidth(runes []rune, prefixWidth int, tabstop int, limit int) (int, int
 		if len(rs) == 1 && rs[0] == '\t' {
 			w = tabstop - (prefixWidth+width)%tabstop
 		} else {
-			s := string(rs)
-			w = runewidth.StringWidth(s) + strings.Count(s, "\n")
+			w = runewidth.StringWidth(string(rs))
 		}
 		width += w
 		if limit > 0 && width > limit {
