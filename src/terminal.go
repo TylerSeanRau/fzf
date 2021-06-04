@@ -1723,7 +1723,7 @@ func (t *Terminal) executeCommand(template string, forcePlus bool, background bo
 	command := t.replacePlaceholder(template, forcePlus, string(t.input), list)
 	cmd := util.ExecCommand(command, false)
 	if !background {
-		cmd.Stdin = tui.TtyIn()
+		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		t.tui.Pause(true)
