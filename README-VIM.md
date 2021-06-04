@@ -127,14 +127,8 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 " Default fzf layout
-" - Popup window (center of the screen)
+" - Popup window
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-" - Popup window (center of the current window)
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
-
-" - Popup window (anchored to the bottom of the current window)
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
 
 " - down / up / left / right
 let g:fzf_layout = { 'down': '40%' }
@@ -308,7 +302,6 @@ following options are allowed:
 - Optional:
     - `yoffset` [float default 0.5 range [0 ~ 1]]
     - `xoffset` [float default 0.5 range [0 ~ 1]]
-    - `relative` [boolean default v:false]
     - `border` [string default `rounded`]: Border style
         - `rounded` / `sharp` / `horizontal` / `vertical` / `top` / `bottom` / `left` / `right` / `no[ne]`
 
@@ -417,7 +410,6 @@ The latest versions of Vim and Neovim include builtin terminal emulator
 " Optional:
 " - xoffset [float default 0.5 range [0 ~ 1]]
 " - yoffset [float default 0.5 range [0 ~ 1]]
-" - relative [boolean default v:false]
 " - border [string default 'rounded']: Border style
 "   - 'rounded' / 'sharp' / 'horizontal' / 'vertical' / 'top' / 'bottom' / 'left' / 'right'
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
