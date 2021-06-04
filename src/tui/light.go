@@ -10,8 +10,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/mattn/go-runewidth"
-	"github.com/rivo/uniseg"
+	"github.com/junegunn/fzf/src/util"
 
 	"golang.org/x/term"
 )
@@ -51,7 +50,7 @@ func (r *LightRenderer) stderrInternal(str string, allowNLCR bool) {
 		}
 		bytes = bytes[sz:]
 	}
-	r.queued.WriteString(string(runes))
+	r.queued += string(runes)
 }
 
 func (r *LightRenderer) csi(code string) {
@@ -59,9 +58,9 @@ func (r *LightRenderer) csi(code string) {
 }
 
 func (r *LightRenderer) flush() {
-	if r.queued.Len() > 0 {
-		fmt.Fprint(os.Stderr, r.queued.String())
-		r.queued.Reset()
+	if len(r.queued) > 0 {
+		fmt.Fprint(os.Stderr, r.queued)
+		r.queued = ""
 	}
 }
 
@@ -83,7 +82,7 @@ type LightRenderer struct {
 	escDelay      int
 	fullscreen    bool
 	upOneLine     bool
-	queued        strings.Builder
+	queued        string
 	y             int
 	x             int
 	maxHeightFunc func(int) int
@@ -890,26 +889,20 @@ func wrapLine(input string, prefixLength int, max int, tabstop int) []wrappedLin
 	lines := []wrappedLine{}
 	width := 0
 	line := ""
-	gr := uniseg.NewGraphemes(input)
-	for gr.Next() {
-		rs := gr.Runes()
-		str := string(rs)
-		var w int
-		if len(rs) == 1 && rs[0] == '\t' {
-			w = tabstop - (prefixLength+width)%tabstop
-			str = repeat(' ', w)
-		} else {
-			w = runewidth.StringWidth(str)
-		}
+	for _, r := range input {
+		w := util.RuneWidth(r, prefixLength+width, 8)
 		width += w
-
+		str := string(r)
+		if r == '\t' {
+			str = repeat(' ', w)
+		}
 		if prefixLength+width <= max {
 			line += str
 		} else {
 			lines = append(lines, wrappedLine{string(line), width - w})
 			line = str
 			prefixLength = 0
-			width = w
+			width = util.RuneWidth(r, prefixLength, 8)
 		}
 	}
 	lines = append(lines, wrappedLine{string(line), width})
